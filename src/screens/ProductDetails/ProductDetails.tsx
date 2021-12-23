@@ -13,7 +13,7 @@ console.log(windowHeight);
 const ProductDetails: React.FC = () => {
   return (
     <>
-      <ScrollView>
+      <ScrollView style={{height: windowHeight - 135}}>
         <Slider />
         <View style={styles.detailsWrapper}>
           <View style={styles.productDetailsWrapper}>

@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ScrollView, Image, RefreshControl} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  RefreshControl,
+  Dimensions,
+} from 'react-native';
 import {getProducts, getImageById} from '../../../../requests';
 
 import styles from './styles';
@@ -13,6 +20,8 @@ type product = {
   attributes: attributes;
   id: string;
 };
+
+const windowHeight = Dimensions.get('window').height;
 
 const ProductsList: React.FC = () => {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -38,7 +47,8 @@ const ProductsList: React.FC = () => {
       contentContainerStyle={styles.productList}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
+      }
+      style={{height: windowHeight - 160}}>
       {!refreshing &&
         products.map(({attributes, id}: product) => (
           <View key={id} style={styles.shadow}>
