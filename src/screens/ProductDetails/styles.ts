@@ -1,11 +1,17 @@
+import {COLORS} from './../../styles/colors';
 import {StyleSheet} from 'react-native';
-import {COLORS} from '../../styles/colors';
 import {font} from '../../styles/font';
 
 const styles = StyleSheet.create({
   detailsWrapper: {
     marginTop: 30,
     marginHorizontal: 20,
+  },
+  scrollWrapper: {
+    marginBottom: 60,
+  },
+  screenWrapper: {
+    backgroundColor: COLORS.WHITE,
   },
   productTitle: {
     ...font.size(15, 20).REGULAR.NEUTRAL_GRAY,
@@ -31,6 +37,7 @@ const styles = StyleSheet.create({
   },
   colorWrapper: {
     marginTop: 10,
+    flexDirection: 'row',
   },
   color: {
     paddingHorizontal: 10,
@@ -38,6 +45,10 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.NEUTRAL_GRAY1,
     alignSelf: 'flex-start',
     marginRight: 10,
+  },
+  activeColor: {
+    backgroundColor: COLORS.BLUE,
+    color: COLORS.WHITE,
   },
   descriptionSectionHeader: {
     marginTop: 15,
@@ -52,6 +63,7 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: COLORS.BLUE,
     position: 'absolute',
+    bottom: 10,
   },
 });
 

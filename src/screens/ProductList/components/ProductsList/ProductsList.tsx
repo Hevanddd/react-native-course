@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,72 +6,85 @@ import {
   Image,
   RefreshControl,
   Dimensions,
+  TouchableHighlight,
 } from 'react-native';
-import {getProducts, getImageById} from '../../../../requests';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+
+import {getImageById} from '../../../../requests';
+
+import {selectProducts, selectIsProductsLoading} from '../../../../selectors';
+import {productsRequest} from '../../../../actions';
+
+import {product} from '../../../../types';
 
 import styles from './styles';
 
-type attributes = {
-  name: string;
-  display_price: string;
-};
-
-type product = {
-  attributes: attributes;
-  id: string;
+type ProductsListProps = {
+  onProductPress: (id: string) => void;
+  products: product[] | null;
+  isLoading: boolean;
+  fetchProducts: () => void;
 };
 
 const windowHeight = Dimensions.get('window').height;
 
-const ProductsList: React.FC = () => {
-  const [refreshing, setRefreshing] = React.useState(false);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    getProducts().then(res => {
-      setProducts(res.data.data);
-      setRefreshing(false);
-    });
-  }, []);
-  const [products, setProducts] = useState([]);
-
+const ProductsList = ({
+  onProductPress,
+  products,
+  fetchProducts,
+  isLoading,
+}: ProductsListProps) => {
   useEffect(() => {
-    getProducts().then(res => {
-      setProducts(res.data.data);
-    });
-  }, []);
+    fetchProducts();
+  }, [fetchProducts]);
 
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
       contentContainerStyle={styles.productList}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl refreshing={isLoading} onRefresh={fetchProducts} />
       }
       style={{height: windowHeight - 160}}>
-      {!refreshing &&
-        products.map(({attributes, id}: product) => (
-          <View key={id} style={styles.shadow}>
-            <View key={id} style={styles.productWrapper}>
+      {!isLoading &&
+        products?.map((item: product) => (
+          <TouchableHighlight
+            key={item.id}
+            onPress={() => onProductPress(item.id)}
+            underlayColor={'white'}
+            style={styles.shadow}>
+            <View key={item.id} style={styles.productWrapper}>
               <Image
                 style={styles.productImage}
                 source={{
-                  uri: getImageById(id, 200),
+                  uri: getImageById(item.id, 200),
                 }}
               />
 
               <Text numberOfLines={1} style={styles.productTitle}>
-                {attributes.name}
+                {item.attributes.name}
               </Text>
 
               <Text style={styles.productPrice}>
-                {attributes.display_price}
+                {item.attributes.display_price}
               </Text>
             </View>
-          </View>
+          </TouchableHighlight>
         ))}
     </ScrollView>
   );
 };
 
-export default ProductsList;
+const mapStateToProps = (state: any) => ({
+  products: selectProducts(state),
+  isLoading: selectIsProductsLoading(state),
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    fetchProducts: () => dispatch(productsRequest()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsList);
