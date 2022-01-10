@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {FlatList, View, Image, Dimensions} from 'react-native';
 
 import {getImageById} from '../../requests';
@@ -18,9 +18,7 @@ const renderItem = ({item}: {item: string}) => (
   </View>
 );
 
-export const Slider: FC = () => {
-  const images = ['1', '2', '3'] as string[];
-
+export const Slider = ({images}: {images: string[]}) => {
   return (
     <View style={styles.sliderWrapper}>
       <FlatList

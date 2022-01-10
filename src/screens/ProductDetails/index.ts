@@ -1,3 +1,3 @@
-import ProductDetails from './ProductDetails';
+import ProductDetailsScreen from './ProductDetails';
 
-export default ProductDetails;
+export default ProductDetailsScreen;
