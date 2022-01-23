@@ -9,4 +9,5 @@ export enum COLORS {
   NEUTRAL_GRAY1 = '#F7F7F7',
   NEUTRAL_GRAY2 = '#a5a6a9',
   GREEN = '#A5DC86',
+  RED = 'red',
 }

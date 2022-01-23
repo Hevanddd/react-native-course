@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, BackHandler} from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
@@ -77,6 +77,34 @@ export const LoginToContinueModal = ({
           />
           <Button
             title="Sign up"
+            containerStyle={styles.modalButton}
+            onPress={() => navigation.goBack()}
+          />
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export const ConnectionProblemModal = ({
+  navigation,
+}: NativeStackScreenProps<
+  RootStackParamList,
+  ROUTES.CONNECTION_PROBLEM_MODAL
+>) => {
+  return (
+    <View style={styles.modalWrapper}>
+      <View style={styles.modal}>
+        <Warning width={66} height={66} />
+        <Text style={styles.modalTitle}>Connection issue</Text>
+        <View style={styles.buttonsWrapper}>
+          <Button
+            title="Close"
+            containerStyle={styles.modalButton}
+            onPress={() => BackHandler.exitApp()}
+          />
+          <Button
+            title="Try again"
             containerStyle={styles.modalButton}
             onPress={() => navigation.goBack()}
           />

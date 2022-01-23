@@ -4,6 +4,7 @@ import {
   LoginToContinueModal,
   ProductRemovedModal,
   OrderConfirmationModal,
+  ConnectionProblemModal,
 } from './Modal';
 
 export {
@@ -12,4 +13,5 @@ export {
   LoginToContinueModal,
   ProductRemovedModal,
   OrderConfirmationModal,
+  ConnectionProblemModal,
 };

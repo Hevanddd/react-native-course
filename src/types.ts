@@ -14,6 +14,7 @@ export enum ROUTES {
   LOGIN_TO_CONTINUE_MODAL = 'LoginToContinueModal',
   PRODUCT_REMOVED_MODAL = 'ProductRemovedModal',
   ORDER_CONFIRMATION_MODAL = 'OrderConfirmationModal',
+  CONNECTION_PROBLEM_MODAL = 'ConnectionProblemModal',
 }
 
 export type productAttributes = {
@@ -48,4 +49,5 @@ export type RootStackParamList = {
   LoginToContinueModal: undefined;
   ProductRemovedModal: undefined;
   OrderConfirmationModal: undefined;
+  ConnectionProblemModal: undefined;
 };
