@@ -33,6 +33,11 @@ const styles = StyleSheet.create({
     width: 125,
     marginTop: 25,
   },
+  loginModalButton: {
+    backgroundColor: COLORS.BLUE,
+    width: '100%',
+    marginTop: 25,
+  },
   buttonsWrapper: {
     marginHorizontal: 33,
     width: 270,

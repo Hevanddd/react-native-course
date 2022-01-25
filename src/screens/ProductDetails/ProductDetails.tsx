@@ -53,7 +53,7 @@ const ProductDetailsScreen = ({
       return navigation.navigate(ROUTES.CHOOSE_COLOR_MODAL);
     }
     if (!isLogged) {
-      navigation.navigate(ROUTES.LOGIN_TO_CONTINUE_MODAL);
+      return navigation.navigate(ROUTES.LOGIN_TO_CONTINUE_MODAL);
     }
     if (currentProduct) {
       addProduct(currentProduct, productColor);

@@ -72,13 +72,8 @@ export const LoginToContinueModal = ({
         <View style={styles.buttonsWrapper}>
           <Button
             title="Login"
-            containerStyle={styles.modalButton}
-            onPress={() => navigation.goBack()}
-          />
-          <Button
-            title="Sign up"
-            containerStyle={styles.modalButton}
-            onPress={() => navigation.goBack()}
+            containerStyle={styles.loginModalButton}
+            onPress={() => navigation.navigate(ROUTES.LOGIN)}
           />
         </View>
       </View>
