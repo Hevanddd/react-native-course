@@ -29,6 +29,7 @@ import {
   LoginToContinueModal,
   ProductRemovedModal,
   OrderConfirmationModal,
+  ConnectionProblemModal,
 } from './modals';
 
 import {ROUTES, RootStackParamList} from './types';
@@ -147,6 +148,10 @@ const Navigation = ({isLogged}: {isLogged?: boolean}) => {
           <Stack.Screen
             name={ROUTES.CHOOSE_COLOR_MODAL}
             component={ChooseColorModal}
+          />
+          <Stack.Screen
+            name={ROUTES.CONNECTION_PROBLEM_MODAL}
+            component={ConnectionProblemModal}
           />
           <Stack.Screen
             name={ROUTES.PRODUCT_ADDED_MODAL}
@@ -310,7 +315,6 @@ const Navigation = ({isLogged}: {isLogged?: boolean}) => {
         drawerContent={props => <CustomDrawerContent {...props} />}
         screenOptions={{
           ...(headerStyles as DrawerNavigationOptions),
-
           headerShown: false,
         }}>
         <Drawer.Screen name={ROUTES.HOME} component={HomeStack} />

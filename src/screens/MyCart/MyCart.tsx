@@ -30,7 +30,6 @@ type navigationProps = NativeStackScreenProps<
 
 type MyCartProps = {
   navigation: navigationProps['navigation'];
-  route: navigationProps['route'];
   products: productInMyCart[];
   removeProduct: (id: string) => void;
   removeAllProducts: () => void;
