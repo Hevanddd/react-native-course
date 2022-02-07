@@ -1,6 +1,11 @@
 import React from 'react';
 import {View, Text, BackHandler} from 'react-native';
 
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+
+import {userLogout} from '../actions';
+
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {ROUTES, RootStackParamList} from '../types';
@@ -108,6 +113,46 @@ export const ConnectionProblemModal = ({
     </View>
   );
 };
+
+export const LogoutModal = connect(null, (dispatch: Dispatch) => {
+  return {
+    logout: () => dispatch(userLogout()),
+  };
+})(
+  ({
+    navigation,
+    logout,
+  }: {
+    navigation: NativeStackScreenProps<RootStackParamList>['navigation'];
+    logout: () => void;
+  }) => {
+    return (
+      <View style={styles.modalWrapper}>
+        <View style={styles.modal}>
+          <Warning width={66} height={66} />
+          <Text style={styles.modalTitle}>Are you sure you want to logout</Text>
+          <View style={styles.buttonsWrapper}>
+            <Button
+              title="Close"
+              containerStyle={styles.modalButton}
+              onPress={() => navigation.goBack()}
+            />
+            <Button
+              title="Logout"
+              containerStyle={styles.modalButton}
+              onPress={() => {
+                logout();
+                navigation.navigate(ROUTES.HOME, {
+                  screen: ROUTES.PRODUCT_LIST,
+                });
+              }}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  },
+);
 
 export const ProductRemovedModal = ({
   navigation,

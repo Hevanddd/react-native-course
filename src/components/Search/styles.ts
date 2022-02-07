@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
   searchIcon: {
     top: 26,
     left: 13,
+    width: 15,
+    zIndex: 10,
   },
   searchInput: {
     height: 38,
@@ -31,6 +33,25 @@ const styles = StyleSheet.create({
     borderColor: COLORS.DARK_GRAY,
     borderRadius: 4,
     ...font.size(15).MEDIUM.BLACK,
+  },
+  searchHistoryWrapper: {
+    paddingHorizontal: 20,
+    marginBottom: 10,
+  },
+  searchHistoryItem: {
+    height: 25,
+    borderBottomColor: COLORS.DARK_GRAY,
+    borderBottomWidth: 0.5,
+    paddingTop: 2,
+    paddingLeft: 10,
+    position: 'relative',
+  },
+  removeIcon: {
+    position: 'absolute',
+    zIndex: 10,
+    width: 20,
+    top: 5,
+    right: 0,
   },
 });
 

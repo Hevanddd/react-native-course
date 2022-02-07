@@ -1,4 +1,4 @@
-import React, {FC, useRef, useEffect} from 'react';
+import React, {FC, useRef, useEffect, useCallback} from 'react';
 import {View, TextInput, Animated} from 'react-native';
 
 import styles from './styles';
@@ -7,9 +7,15 @@ export type InputProps = {
   label: string;
   error?: string;
   onChange: (text: string) => void;
+  defaultValue?: string;
 };
 
-export const Input: FC<InputProps> = ({label, onChange, error}) => {
+export const Input: FC<InputProps> = ({
+  label,
+  onChange,
+  error,
+  defaultValue,
+}) => {
   const translationForLabel = useRef(
     new Animated.ValueXY({x: 0, y: 0}),
   ).current;
@@ -17,7 +23,7 @@ export const Input: FC<InputProps> = ({label, onChange, error}) => {
 
   const translationForErrorMessage = useRef(new Animated.Value(-150)).current;
 
-  const onInputFocus = () => {
+  const onInputFocus = useCallback(() => {
     Animated.timing(zIndexForLabel, {
       toValue: 1,
       useNativeDriver: true,
@@ -30,7 +36,13 @@ export const Input: FC<InputProps> = ({label, onChange, error}) => {
       toValue: -20,
       useNativeDriver: true,
     }).start();
-  };
+  }, [translationForLabel.x, translationForLabel.y, zIndexForLabel]);
+
+  useEffect(() => {
+    if (defaultValue) {
+      onInputFocus();
+    }
+  }, [defaultValue, onInputFocus]);
 
   useEffect(() => {
     if (error) {
@@ -66,6 +78,7 @@ export const Input: FC<InputProps> = ({label, onChange, error}) => {
         style={styles.input}
         onFocus={onInputFocus}
         onChangeText={onChange}
+        defaultValue={defaultValue}
       />
       <Animated.Text
         style={[
