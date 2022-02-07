@@ -8,10 +8,7 @@ import {Dispatch} from 'redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {selectProductsFromMyCart} from '../../selectors';
-import {
-  removeProductFromMyCart,
-  removeAllProductsFromMyCart,
-} from '../../actions';
+import {removeProductFromMyCart, proceedAllProducts} from '../../actions';
 
 import {ROUTES, RootStackParamList, productInMyCart} from '../../types';
 
@@ -32,14 +29,14 @@ type MyCartProps = {
   navigation: navigationProps['navigation'];
   products: productInMyCart[];
   removeProduct: (id: string) => void;
-  removeAllProducts: () => void;
+  proceedProducts: () => void;
 };
 
 const MyCartScreen = ({
   navigation,
   products,
   removeProduct,
-  removeAllProducts,
+  proceedProducts,
 }: MyCartProps) => {
   const onRemovePress = (id: string) => {
     navigation.navigate(ROUTES.PRODUCT_REMOVED_MODAL);
@@ -48,7 +45,7 @@ const MyCartScreen = ({
 
   const onProceedToPaymentPress = () => {
     navigation.navigate(ROUTES.ORDER_CONFIRMATION_MODAL);
-    removeAllProducts();
+    proceedProducts();
   };
 
   return (
@@ -132,7 +129,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     removeProduct: (id: string) => dispatch(removeProductFromMyCart(id)),
-    removeAllProducts: () => dispatch(removeAllProductsFromMyCart()),
+    proceedProducts: () => dispatch(proceedAllProducts()),
   };
 };
 

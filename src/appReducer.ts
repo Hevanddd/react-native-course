@@ -1,5 +1,7 @@
 import * as actions from './constants';
-import {product, productInMyCart} from './types';
+import {product, productInMyCart, order} from './types';
+
+import {uniqueId} from 'lodash';
 
 export interface appState {
   products: product[];
@@ -7,6 +9,7 @@ export interface appState {
   isProductsError: boolean;
   isLogged: boolean;
   myCart: productInMyCart[];
+  myOrders: order[];
 }
 
 const initialState: appState = {
@@ -15,6 +18,7 @@ const initialState: appState = {
   isProductsError: false,
   isLogged: false,
   myCart: [],
+  myOrders: [],
 };
 
 const appReducer = (
@@ -35,8 +39,15 @@ const appReducer = (
       return {...state, isProductsLoading: false, isProductsError: true};
     case actions.ADD_PRODUCT_TO_MY_CART:
       return {...state, myCart: [...state.myCart, payload]};
-    case actions.REMOVE_ALL_PRODUCTS_FROM_MY_CART:
-      return {...state, myCart: []};
+    case actions.PROCEED_ALL_PRODUCTS:
+      return {
+        ...state,
+        myCart: [],
+        myOrders: [
+          ...state.myOrders,
+          {products: state.myCart, date: Date.now(), id: uniqueId()},
+        ],
+      };
     case actions.REMOVE_PRODUCT_FROM_MY_CART:
       return {
         ...state,
@@ -46,6 +57,8 @@ const appReducer = (
       };
     case actions.USER_LOG_IN:
       return {...state, isLogged: true};
+    case actions.USER_LOG_OUT:
+      return {...state, isLogged: false};
     default:
       return state;
   }

@@ -14,7 +14,8 @@ export const addProductToMyCart = createAction(
 export const removeProductFromMyCart = createAction(
   actionTypes.REMOVE_PRODUCT_FROM_MY_CART,
 );
-export const removeAllProductsFromMyCart = createAction(
-  actionTypes.REMOVE_ALL_PRODUCTS_FROM_MY_CART,
+export const proceedAllProducts = createAction(
+  actionTypes.PROCEED_ALL_PRODUCTS,
 );
 export const userLogin = createAction(actionTypes.USER_LOG_IN);
+export const userLogout = createAction(actionTypes.USER_LOG_OUT);

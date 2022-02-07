@@ -67,7 +67,7 @@ const ProductListScreen = ({
 
   return (
     <View style={styles.screenWrapper}>
-      <Search />
+      <Search onFocus={() => navigation.navigate(ROUTES.SEARCH)} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={styles.productList}

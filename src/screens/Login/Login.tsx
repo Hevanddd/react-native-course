@@ -26,9 +26,7 @@ type LoginProps = {
 const LoginScreen = ({navigation, login}: LoginProps) => {
   const loginUser = () => {
     login();
-    navigation.navigate(ROUTES.MY_CART, {
-      screen: ROUTES.MY_CART_LIST,
-    });
+    navigation.goBack();
   };
 
   const [email, setEmail] = useState('');

@@ -7,3 +7,4 @@ export const selectIsProductsLoading = (state: appState) =>
 export const selectIsProductsError = (state: appState) => state.isProductsError;
 
 export const selectProductsFromMyCart = (state: appState) => state.myCart;
+export const selectOrders = (state: appState) => state.myOrders;

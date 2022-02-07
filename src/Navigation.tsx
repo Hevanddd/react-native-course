@@ -17,7 +17,12 @@ import 'react-native-gesture-handler';
 
 import ProductListScreen from './screens/ProductList';
 import ProductDetailsScreen from './screens/ProductDetails';
+import SearchScreen from './screens/Search';
 import MyCart from './screens/MyCart';
+import MyOrders from './screens/MyOrders';
+import OrderDetails from './screens/OrderDetails';
+import Map from './screens/Map';
+import MyProfile from './screens/MyProfile';
 import Login from './screens/Login';
 import LoginFirst from './screens/LoginFirst';
 
@@ -30,10 +35,13 @@ import {
   ProductRemovedModal,
   OrderConfirmationModal,
   ConnectionProblemModal,
+  LogoutModal,
 } from './modals';
 
 import {ROUTES, RootStackParamList} from './types';
 import {COLORS} from './styles/colors';
+
+import Share from 'react-native-share';
 
 import Menu from './assets/icons/menu.svg';
 import Cart from './assets/icons/cart.svg';
@@ -44,7 +52,7 @@ import DrewerCart from './assets/icons/drewer-cart.svg';
 import Orders from './assets/icons/orders.svg';
 import Email from './assets/icons/email.svg';
 import Phone from './assets/icons/phone.svg';
-import Share from './assets/icons/share.svg';
+import ShareIcon from './assets/icons/share.svg';
 
 import styles from './styles';
 
@@ -118,6 +126,24 @@ const Navigation = ({isLogged}: {isLogged?: boolean}) => {
                   height={25}
                 />
               </View>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name={ROUTES.SEARCH}
+          component={SearchScreen}
+          options={({navigation}) => ({
+            title: 'Search',
+            headerRight: () => (
+              <Cart
+                onPress={() =>
+                  navigation.navigate(ROUTES.MY_CART, {
+                    screen: ROUTES.MY_CART_LIST,
+                  })
+                }
+                width={25}
+                height={25}
+              />
             ),
           })}
         />
@@ -234,6 +260,171 @@ const Navigation = ({isLogged}: {isLogged?: boolean}) => {
     );
   };
 
+  const MyOrdersStack = () => {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          ...headerStyles,
+          title: 'My Orders',
+        }}>
+        {isLogged ? (
+          <>
+            <Stack.Screen
+              name={ROUTES.MY_ORDERS_LIST}
+              component={MyOrders}
+              options={({navigation}) => ({
+                headerLeft: () => (
+                  <Menu
+                    onPress={() => navigation.openDrawer()}
+                    width={25}
+                    height={25}
+                  />
+                ),
+                headerRight: () => (
+                  <Cart
+                    onPress={() =>
+                      navigation.navigate(ROUTES.MY_CART, {
+                        screen: ROUTES.MY_CART_LIST,
+                      })
+                    }
+                    width={25}
+                    height={25}
+                  />
+                ),
+              })}
+            />
+            <Stack.Screen
+              name={ROUTES.ORDER_DETAILS}
+              component={OrderDetails}
+              options={({navigation}) => ({
+                headerRight: () => (
+                  <Cart
+                    onPress={() =>
+                      navigation.navigate(ROUTES.MY_CART, {
+                        screen: ROUTES.MY_CART_LIST,
+                      })
+                    }
+                    width={25}
+                    height={25}
+                  />
+                ),
+              })}
+            />
+            <Stack.Screen
+              name={ROUTES.MAP}
+              component={Map}
+              options={({navigation}) => ({
+                headerRight: () => (
+                  <Cart
+                    onPress={() =>
+                      navigation.navigate(ROUTES.MY_CART, {
+                        screen: ROUTES.MY_CART_LIST,
+                      })
+                    }
+                    width={25}
+                    height={25}
+                  />
+                ),
+              })}
+            />
+          </>
+        ) : (
+          <Stack.Screen
+            name={ROUTES.LOGIN_FIRST}
+            component={LoginFirst}
+            options={({navigation}) => ({
+              headerLeft: () => (
+                <Menu
+                  onPress={() => navigation.openDrawer()}
+                  width={25}
+                  height={25}
+                />
+              ),
+            })}
+          />
+        )}
+      </Stack.Navigator>
+    );
+  };
+
+  const MyProfileStack = () => {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          ...headerStyles,
+          title: 'My Profile',
+        }}>
+        {isLogged ? (
+          <>
+            <Stack.Screen
+              name={ROUTES.MY_PROFILE_MAIN}
+              component={MyProfile}
+              options={({navigation}) => ({
+                headerLeft: () => (
+                  <Menu
+                    onPress={() => navigation.openDrawer()}
+                    width={25}
+                    height={25}
+                  />
+                ),
+                headerRight: () => (
+                  <Cart
+                    onPress={() =>
+                      navigation.navigate(ROUTES.MY_CART, {
+                        screen: ROUTES.MY_CART_LIST,
+                      })
+                    }
+                    width={25}
+                    height={25}
+                  />
+                ),
+              })}
+            />
+            <Stack.Screen
+              name={ROUTES.LOGOUT_MODAL}
+              component={LogoutModal}
+              options={({navigation}) => ({
+                headerLeft: () => (
+                  <Menu
+                    onPress={() => navigation.openDrawer()}
+                    width={25}
+                    height={25}
+                  />
+                ),
+                headerRight: () => (
+                  <Menu
+                    onPress={() =>
+                      navigation.navigate(ROUTES.MY_CART, {
+                        screen: ROUTES.MY_CART_LIST,
+                      })
+                    }
+                    width={25}
+                    height={25}
+                  />
+                ),
+                presentation: 'modal',
+              })}
+            />
+          </>
+        ) : (
+          <Stack.Screen
+            name={ROUTES.LOGIN_FIRST}
+            component={LoginFirst}
+            options={({navigation}) => ({
+              headerLeft: () => (
+                <Menu
+                  onPress={() => navigation.openDrawer()}
+                  width={25}
+                  height={25}
+                />
+              ),
+            })}
+          />
+        )}
+      </Stack.Navigator>
+    );
+  };
+
   function CustomDrawerContent(props: DrawerContentComponentProps) {
     return (
       <DrawerContentScrollView {...props}>
@@ -298,8 +489,20 @@ const Navigation = ({isLogged}: {isLogged?: boolean}) => {
         <View style={styles.drawerSeparator} />
         <DrawerItem
           label="Share"
-          onPress={() => console.log('Share')}
-          icon={() => <Share width={17} height={17} />}
+          onPress={() => {
+            const options = {
+              title: 'Share our app',
+              url: 'https://github.com/Hevanddd/react-native-course',
+            };
+            Share.open(options)
+              .then(res => {
+                console.log(res);
+              })
+              .catch(err => {
+                err && console.log(err);
+              });
+          }}
+          icon={() => <ShareIcon width={17} height={17} />}
           style={styles.drawerItem}
           labelStyle={{...styles.drawerItemText}}
         />
@@ -319,6 +522,8 @@ const Navigation = ({isLogged}: {isLogged?: boolean}) => {
         }}>
         <Drawer.Screen name={ROUTES.HOME} component={HomeStack} />
         <Drawer.Screen name={ROUTES.MY_CART} component={MyCartStack} />
+        <Drawer.Screen name={ROUTES.MY_PROFILE} component={MyProfileStack} />
+        <Drawer.Screen name={ROUTES.MY_ORDERS} component={MyOrdersStack} />
         <Drawer.Screen name={ROUTES.LOGIN} component={Login} />
       </Drawer.Navigator>
     </NavigationContainer>
